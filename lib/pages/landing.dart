@@ -32,7 +32,7 @@ class Landing extends StatelessWidget {
     ));
     output.add(Common().emptySpace(height: 100));
     output.add(Common().textButton(
-        onClick: (itemIndex) => {print(itemIndex)},
+        onClick: (itemIndex) => {Navigator.pushNamed(context, "/about")},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [Icon(Icons.info_outline_rounded), Text(" About us")],

@@ -1,10 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.islrtc">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
    <application
         android:label="islrtc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <uses-permission android:name="android.permission.INTERNET" />
+        <!-- Provide required visibility configuration for API level 30 and above -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

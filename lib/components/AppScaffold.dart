@@ -9,6 +9,7 @@ class AppScaffold extends StatelessWidget {
   final bool includeBottomInSafeArea;
   final bool showAppBar;
   final String pageTitle;
+  final List<int>? hideAppBarActionButtons;
 
   const AppScaffold(
       {super.key,
@@ -16,7 +17,8 @@ class AppScaffold extends StatelessWidget {
       this.enableSafeArea = false,
       this.includeBottomInSafeArea = true,
       this.showAppBar = false,
-      this.pageTitle = ""});
+      this.pageTitle = "",
+      this.hideAppBarActionButtons});
 
   Widget renderChild() {
     return Padding(
@@ -31,14 +33,20 @@ class AppScaffold extends StatelessWidget {
           bottom: includeBottomInSafeArea,
           child: Scaffold(
             appBar: showAppBar
-                ? Common().appBar(title: pageTitle, context: context)
+                ? Common().appBar(
+                    title: pageTitle,
+                    context: context,
+                    hideActionButtons: hideAppBarActionButtons)
                 : null,
             body: renderChild(),
           ));
     } else {
       return Scaffold(
         appBar: showAppBar
-            ? Common().appBar(title: pageTitle, context: context)
+            ? Common().appBar(
+                title: pageTitle,
+                context: context,
+                hideActionButtons: hideAppBarActionButtons)
             : null,
         body: renderChild(),
       );

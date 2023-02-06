@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:islrtc/infra/appTheme.dart';
+import 'package:islrtc/pages/about.dart';
 import 'package:islrtc/pages/categories.dart';
+import 'package:islrtc/pages/favorites.dart';
 import 'package:islrtc/pages/landing.dart';
+import 'package:islrtc/pages/search.dart';
 import 'package:islrtc/pages/word-detail.dart';
 import 'package:islrtc/pages/words.dart';
 
@@ -22,7 +25,10 @@ class ISLRTCApp extends StatelessWidget {
         "/": (context) => const Landing(),
         "/categories": (context) => Categories(),
         "/words": (context) => Words(),
-        "/wordDetail": (context) => WordDetail(),
+        "/wordDetail": (context) => const WordDetail(),
+        "/about": (context) => const About(),
+        "/search": (context) => const Search(),
+        "/favorites": (context) => Favorites(),
       },
     );
   }

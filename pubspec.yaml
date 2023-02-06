@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
@@ -34,6 +34,8 @@ dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.10.0
   share_plus: ^4.1.0
+  shared_preferences: ^2.0.15
+  url_launcher: ^6.1.5
   youtube_player_flutter: ^8.1.0
 
 dev_dependencies:
@@ -42,7 +44,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path: "assets/signLang.jpeg" 
+  image_path: "assets/signLang.jpeg"
   android: true
   ios: true
 
@@ -74,6 +76,7 @@ flutter:
     - assets/icons/state.svg
     - assets/icons/technical.svg
     - assets/data/categories.json
+    - assets/data/about.json
     - assets/data/english/academic.json
     - assets/data/english/agriculture.json
     - assets/data/english/countries.json
@@ -85,6 +88,22 @@ flutter:
     - assets/data/english/regional.json
     - assets/data/english/states.json
     - assets/data/english/technical.json
+    - assets/data/words_json/all_english.json
+    - assets/data/words_json/all_hindi.json
+    - assets/data/hi.json
+    - assets/data/en_US.json
+    - assets/data/
+    - assets/data/hindi/कृषि.json
+    - assets/data/hindi/शैक्षिक.json
+    - assets/data/hindi/देशों.json
+    - assets/data/hindi/मुहावरों.json
+    - assets/data/hindi/कानूनी.json
+    - assets/data/hindi/मेडिकल.json
+    - assets/data/hindi/नंबर.json
+    - assets/data/hindi/क्षेत्रीय.json
+    - assets/data/hindi/स्थानों.json
+    - assets/data/hindi/तकनीकी.json
+    - assets/data/hindi/हरदिन.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

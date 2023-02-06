@@ -21,4 +21,18 @@ class Labels {
           color: textColor.color),
     );
   }
+
+  Widget label(
+      {String data = "Label",
+      AppColors textColor = AppColors.dark,
+      LabelSizes size = LabelSizes.md}) {
+    return Text(
+      data,
+      style: TextStyle(
+          fontFamily: "Poppins-Light",
+          fontSize: size.size,
+          height: 1.5,
+          color: textColor.color),
+    );
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "categories": [
+  "english": [
     "Academic",
     "Agriculture",
     "Countries",
@@ -9,6 +9,20 @@
     "Numbers",
     "Regional",
     "States",
-    "Technical"
+    "Technical",
+    "Everyday"
+  ],
+  "hindi": [
+    "शैक्षिक",
+    "कृषि",
+    "देशों",
+    "मुहावरों",
+    "कानूनी",
+    "मेडिकल",
+    "नंबर",
+    "क्षेत्रीय",
+    "स्थानों",
+    "तकनीकी",
+    "हरदिन"
   ]
 }

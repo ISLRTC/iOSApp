@@ -11,13 +11,14 @@ import '../components/Common.dart';
 class Categories extends StatelessWidget {
   Categories({super.key});
   List<String> allCategories = [];
+  final _selectedLanguage = Singleton().currentLanguage.name;
 
   Future<List<String>> getCategories(BuildContext context) async {
     String jsonCode = await DefaultAssetBundle.of(context)
         .loadString("assets/data/categories.json");
 
     final data = jsonDecode(jsonCode);
-    allCategories = List<String>.from(data["categories"]);
+    allCategories = List<String>.from(data[_selectedLanguage]);
 
     return allCategories;
   }
@@ -29,8 +30,6 @@ class Categories extends StatelessWidget {
         pageTitle: "Categories",
         body: Column(
           children: [
-            Common().searchBox(),
-            Common().emptySpace(),
             Expanded(
               child: FutureBuilder(
                   future: getCategories(context),
@@ -43,7 +42,6 @@ class Categories extends StatelessWidget {
                                 icon: const Icon(Icons.chevron_right_rounded),
                                 index: index,
                                 onClick: (itemIndex) => {
-                                  print(itemIndex),
                                   Singleton()
                                       .setCategory(allCategories[itemIndex]),
                                   Navigator.pushNamed(context, "/words")

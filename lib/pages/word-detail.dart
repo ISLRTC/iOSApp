@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:islrtc/components/AppScaffold.dart';
 import 'package:islrtc/components/Common.dart';
 import 'package:islrtc/components/Labels.dart';
+import 'package:islrtc/infra/localstorage.dart';
 import 'package:islrtc/infra/singleton.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -43,6 +42,28 @@ class _WordDetailState extends State<WordDetail> {
         sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 
+  Future<Widget> renderFavoritesButton() async {
+    LocalStorage _localStorage = LocalStorage();
+    String key = Singleton().selectedWord.title ?? "";
+    return _localStorage.isInFavorites(key: key).then((value) => value
+        ? Common().btnRemoveFromFavorites(
+            context: context,
+            onClick: () => {
+              setState(
+                () => {},
+              )
+            },
+          )
+        : Common().btnAddToFavorites(
+            context: context,
+            onClick: () => {
+              setState(
+                () => {},
+              )
+            },
+          ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -62,9 +83,29 @@ class _WordDetailState extends State<WordDetail> {
               handleColor: Colors.amberAccent,
             ),
           ),
-          Common().buttonGroup(
-            data: ["Add to Favorites", "Share"],
-            onClick: (index) => index == 1 ? _onShare(context) : print(index),
+          Common().emptySpace(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FutureBuilder(
+                future: renderFavoritesButton(),
+                builder: (context, snapshot) => snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done
+                    ? snapshot.data!
+                    : Container(),
+              ),
+              Common().textButton(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.share_rounded),
+                    Common().emptySpace(),
+                    const Text("Share")
+                  ],
+                ),
+                onClick: (index) => _onShare(context),
+              )
+            ],
           )
         ],
       ),

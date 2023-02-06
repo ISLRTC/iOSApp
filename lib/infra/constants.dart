@@ -4,6 +4,19 @@ enum Languages { english, hindi }
 
 enum Shadows { sm, md, lg, none }
 
+enum AppColors {
+  primary,
+  secondary,
+  warning,
+  danger,
+  success,
+  info,
+  white,
+  dark
+}
+
+enum LabelSizes { sm, md, lg, regular, huge }
+
 extension ShadowsExtension on Shadows {
   double get size {
     switch (this) {
@@ -20,17 +33,6 @@ extension ShadowsExtension on Shadows {
         return 0.0;
     }
   }
-}
-
-enum AppColors {
-  primary,
-  secondary,
-  warning,
-  danger,
-  success,
-  info,
-  white,
-  dark
 }
 
 extension AppColorsExtension on AppColors {
@@ -96,4 +98,25 @@ extension StringCasingExtension on String {
       .split(' ')
       .map((str) => str.toCapitalized())
       .join(' ');
+}
+
+extension LabelSizesExtension on LabelSizes {
+  double get size {
+    switch (this) {
+      case LabelSizes.sm:
+        return 16;
+
+      case LabelSizes.md:
+        return 20;
+
+      case LabelSizes.lg:
+        return 24;
+
+      case LabelSizes.huge:
+        return 28;
+
+      default:
+        return 14;
+    }
+  }
 }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:islrtc/components/Labels.dart';
 import 'package:islrtc/infra/constants.dart';
 import 'package:islrtc/infra/singleton.dart';
+import 'package:islrtc/pages/about.dart';
+
+import '../infra/localstorage.dart';
 
 class Common {
   static const String placeHolder = "Placeholder";
@@ -162,12 +165,18 @@ class Common {
     );
   }
 
-  Widget searchBox() {
-    return const TextField(
-      decoration: InputDecoration(
+  Widget searchBox({Function(String)? onChange}) {
+    // TextEditingController searchBoxController = TextEditingController();
+
+    // searchBoxController.addListener(onChange ?? () {});
+
+    return TextField(
+      onChanged: onChange,
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Search Words:',
       ),
+      //controller: searchBoxController,
     );
   }
 
@@ -185,28 +194,58 @@ class Common {
     );
   }
 
-  Widget favoritesButton({BuildContext? context}) {
+  Widget actionButton(
+      {BuildContext? context,
+      IconData? icon,
+      String? tooltip,
+      Function()? onClick}) {
     return InkWell(
-      onTap: () => {Navigator.pop(context!)},
+      onTap: onClick,
       child: IconButton(
-        icon: const Icon(Icons.star_border, size: 30),
-        color: AppColors.primary.color,
-        tooltip: 'My favorites',
-        onPressed: () {
-          Navigator.pop(context!);
-        },
+        icon: Icon(icon ?? Icons.circle,
+            size: 30, color: AppColors.primary.color),
+        tooltip: tooltip ?? "",
+        onPressed: onClick,
       ),
     );
   }
 
-  PreferredSizeWidget appBar({String title = "", BuildContext? context}) {
+  PreferredSizeWidget appBar(
+      {String title = "",
+      BuildContext? context,
+      List<int>? hideActionButtons}) {
+    List<Widget> actionButtons = [
+      actionButton(
+        context: context,
+        icon: Icons.search_rounded,
+        tooltip: "Search Words",
+        onClick: () => Navigator.pushNamed(context!, "/search"),
+      ),
+      actionButton(
+        context: context,
+        icon: Icons.star_border_rounded,
+        tooltip: "My Favorites",
+        onClick: () => Navigator.pushNamed(context!, "/favorites"),
+      )
+    ];
+
+    if ((hideActionButtons ?? []).isNotEmpty) {
+      int count = 0;
+      hideActionButtons!.sort();
+      for (var index in hideActionButtons) {
+        actionButtons.removeAt(index - count);
+        count++;
+      }
+    }
+
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      title: Labels().title(data: title, textColor: AppColors.primary),
+      centerTitle: false,
+      title: Labels().label(data: title, textColor: AppColors.primary),
       toolbarHeight: 50,
       leading: backButton(context: context),
-      actions: [favoritesButton(context: context)],
+      actions: actionButtons,
     );
   }
 
@@ -216,7 +255,8 @@ class Common {
       int index = 0,
       //String namedRoute = "/",
       //BuildContext? context,
-      Function(int)? onClick}) {
+      Function(int)? onClick,
+      Function(int)? onIconClick}) {
     return Card(
       color: Colors.brown.shade100,
       shape: const RoundedRectangleBorder(
@@ -226,18 +266,84 @@ class Common {
       child: InkWell(
         onTap: (() => onClick!(index)),
         child: SizedBox(
-          height: 70,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ListTile(
-                title: Labels().title(data: title, textColor: AppColors.dark),
-                trailing: icon,
+                title: Labels().label(data: title, textColor: AppColors.dark),
+                trailing: InkWell(
+                  child: icon,
+                  onTap: () => onIconClick!(index),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget aboutUsSectionTile({AboutSection? section}) {
+    return SizedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ListTile(
+            title: Labels().label(
+                data: section!.title ?? "Section Title",
+                textColor: AppColors.dark),
+            subtitle: Text(section!.description ?? "Section Description"),
+          ),
+          emptySpace(height: 30)
+        ],
+      ),
+    );
+  }
+
+  Widget btnAddToFavorites(
+      {required BuildContext context, Function()? onClick}) {
+    return textButton(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.star),
+            Common().emptySpace(),
+            const Text(" Add to favorites")
+          ],
+        ),
+        onClick: (index) => {
+              LocalStorage()
+                  .write(
+                      key: Singleton().selectedWord.title ?? "word",
+                      value: Singleton().selectedWord)
+                  .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Added to favorites."),
+                        ),
+                      )),
+              onClick!()
+            });
+  }
+
+  Widget btnRemoveFromFavorites(
+      {required BuildContext context, Function()? onClick}) {
+    return textButton(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.delete_rounded),
+            Common().emptySpace(),
+            const Text(" Remove from favorites")
+          ],
+        ),
+        onClick: (index) => {
+              LocalStorage()
+                  .remove(key: Singleton().selectedWord.title ?? "word")
+                  .then((value) =>
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Removed from favorites."),
+                      ))),
+              onClick!()
+            });
   }
 }
