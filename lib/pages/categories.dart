@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:islrtc/infra/appUtils.dart';
+import 'package:islrtc/infra/constants.dart';
 import 'package:islrtc/infra/singleton.dart';
+import 'package:islrtc/infra/word_model.dart';
 
 import '../components/AppScaffold.dart';
 import '../components/Common.dart';
@@ -12,13 +13,22 @@ class Categories extends StatelessWidget {
   Categories({super.key});
   List<String> allCategories = [];
   final _selectedLanguage = Singleton().currentLanguage.name;
+  List<ISLRTCWord> _words = Singleton().listOfWords;
 
   Future<List<String>> getCategories(BuildContext context) async {
-    String jsonCode = await DefaultAssetBundle.of(context)
-        .loadString("assets/data/categories.json");
+    String jsonCode =
+        await DefaultAssetBundle.of(context).loadString(DATABASE_PATH);
 
-    final data = jsonDecode(jsonCode);
-    allCategories = List<String>.from(data[_selectedLanguage]);
+    if (_words.isEmpty) {
+      List<ISLRTCWord> words = ISLRTCWordFromJson(jsonCode);
+      if (words.isNotEmpty) {
+        _words = words;
+        Singleton().setWords(words);
+      }
+    }
+
+    allCategories =
+        ISLRTCWordUtils.getCategoriesForLanguage(_selectedLanguage, _words);
 
     return allCategories;
   }
@@ -46,10 +56,8 @@ class Categories extends StatelessWidget {
                                       .setCategory(allCategories[itemIndex]),
                                   Navigator.pushNamed(context, "/words")
                                 },
-                              )
-                          //ListTile(title: Text(snapshot.data![index])),
-                          )
-                      : const CircularProgressIndicator()),
+                              ))
+                      : const Center(child: CircularProgressIndicator())),
             ),
           ],
         ));

@@ -11,16 +11,12 @@ class Words extends StatelessWidget {
 
   final _selectedLanguage = Singleton().currentLanguage.name;
   final _selectedCategory = Singleton().selectedCategory;
-  List<Word> allWords = [];
+  final _words = Singleton().listOfWords;
+  final List<Word> allWords = [];
 
-  Future<List<Word>> getAllWords({BuildContext? context}) async {
-    allWords = await AppUtils().loadJsonFromFile(
-        context: context,
-        filename: _selectedCategory,
-        language: _selectedLanguage);
-
-    return allWords;
-  }
+  Future<List<Word>> getAllWords({BuildContext? context}) async =>
+      ISLRTCWordUtils.getWordsForCategory(
+          _selectedLanguage, _selectedCategory, _words);
 
   void onShare(BuildContext context, String? url, String? title) async {
     final box = context.findRenderObject() as RenderBox?;

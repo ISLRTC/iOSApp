@@ -1,12 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:islrtc/components/AppScaffold.dart';
 import 'package:islrtc/components/Common.dart';
-import 'package:islrtc/components/Labels.dart';
-import 'package:islrtc/infra/appUtils.dart';
 
 class AboutSection {
   String? title;
@@ -41,7 +37,7 @@ class About extends StatelessWidget {
         children: [
           Expanded(
             child: FutureBuilder(
-              initialData: [],
+              initialData: const [],
               future: loadAboutUs(context),
               builder: (context, snapshot) => ListView.builder(
                   itemCount: snapshot.data!.length,

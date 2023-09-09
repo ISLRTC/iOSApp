@@ -12,6 +12,5 @@ final appTheme = ThemeData(
 
   // You can add the color from the seprate class here as well to maintain it well.
   fontFamily: "Poppins",
-  backgroundColor: Colors.white,
   primaryColor: Colors.blue[800],
 );

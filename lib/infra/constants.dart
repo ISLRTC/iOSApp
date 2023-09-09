@@ -4,6 +4,8 @@ enum Languages { english, hindi }
 
 enum Shadows { sm, md, lg, none }
 
+const DATABASE_PATH = "assets/data/updated-words-06Sep23.json";
+
 enum AppColors {
   primary,
   secondary,

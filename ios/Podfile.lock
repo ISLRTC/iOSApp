@@ -8,18 +8,23 @@ PODS:
     - Flutter
     - OrderedSet (~> 5.0)
   - OrderedSet (5.0.0)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - share_plus (0.0.1):
     - Flutter
-  - shared_preferences_ios (0.0.1):
+  - shared_preferences_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -31,10 +36,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
@@ -42,9 +49,10 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
 PODFILE CHECKSUM: 1836d65d34697f04b9ac47d2402be51c475d2369
 

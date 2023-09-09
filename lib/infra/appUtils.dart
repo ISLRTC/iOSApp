@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:islrtc/infra/singleton.dart';
+import 'package:islrtc/infra/constants.dart';
+import 'package:islrtc/infra/word_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -54,5 +56,68 @@ class AppUtils {
     await Share.share(url ?? "",
         subject: title ?? "",
         sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
+}
+
+class ISLRTCWordUtils {
+  static List<String> getCategoriesForLanguage(
+      String language, List<ISLRTCWord> words) {
+    return List<String>.from(words
+            .map((e) => language == Languages.english.name
+                ? e.categoryEnglish
+                : e.categoryHindi)
+            .toSet()
+            .toList() ??
+        []);
+  }
+
+  static List<Word> getWordsForCategory(
+      String language, String category, List<ISLRTCWord> words) {
+    return List<Word>.from(words
+            .where((element) =>
+                (language == Languages.english.name
+                    ? element.categoryEnglish
+                    : element.categoryHindi) ==
+                category)
+            .map((e) => Word(
+                e.id,
+                language == Languages.english.name
+                    ? e.wordEnglish
+                    : e.wordHindi,
+                e.videoUrlEnglish))
+            .toSet()
+            .toList() ??
+        []);
+  }
+
+  static List<Word> getWordFromISLRTCWords(
+      String language, List<ISLRTCWord> words) {
+    return List<Word>.from(words
+            .map((e) => Word(
+                e.id,
+                language == Languages.english.name
+                    ? e.wordEnglish
+                    : e.wordHindi,
+                e.videoUrlEnglish))
+            .toSet()
+            .toList() ??
+        []);
+  }
+
+  static Future<List<Word>> searchWord(String searchText, String language,
+      String category, List<ISLRTCWord> words) async {
+    List<Word> allWords = category.isEmpty
+        ? getWordFromISLRTCWords(language, words)
+        : getWordsForCategory(language, category, words);
+
+    List<Word> foundWords = (allWords.where((element) => element.title!
+                .toLowerCase()
+                .contains(searchText.toLowerCase())) ??
+            [])
+        .toList();
+
+    print('$searchText ' + foundWords.length.toString());
+
+    return foundWords;
   }
 }

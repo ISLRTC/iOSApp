@@ -43,9 +43,9 @@ class _WordDetailState extends State<WordDetail> {
   }
 
   Future<Widget> renderFavoritesButton() async {
-    LocalStorage _localStorage = LocalStorage();
+    LocalStorage localStorage = LocalStorage();
     String key = Singleton().selectedWord.title ?? "";
-    return _localStorage.isInFavorites(key: key).then((value) => value
+    return localStorage.isInFavorites(key: key).then((value) => value
         ? Common().btnRemoveFromFavorites(
             context: context,
             onClick: () => {

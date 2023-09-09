@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islrtc/infra/appTheme.dart';
 import 'package:islrtc/pages/about.dart';
 import 'package:islrtc/pages/categories.dart';
@@ -17,6 +18,10 @@ class ISLRTCApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,

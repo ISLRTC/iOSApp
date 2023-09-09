@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:islrtc/infra/appUtils.dart';
 import 'package:islrtc/infra/constants.dart';
+import 'package:islrtc/infra/word_model.dart';
 
 class Singleton {
   static final Singleton _singleton = Singleton._internal();
 
   factory Singleton() {
     return _singleton;
+  }
+
+  @protected
+  List<ISLRTCWord> words = [];
+
+  List<ISLRTCWord> get listOfWords => words;
+
+  void setWords(List<ISLRTCWord> newWords) {
+    words = newWords;
   }
 
   @protected

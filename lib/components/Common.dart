@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:islrtc/components/Labels.dart';
 import 'package:islrtc/infra/constants.dart';
@@ -231,8 +233,9 @@ class Common {
 
     if ((hideActionButtons ?? []).isNotEmpty) {
       int count = 0;
-      hideActionButtons!.sort();
-      for (var index in hideActionButtons) {
+      List<int>? actionButtonsToHide = List<int>.from(hideActionButtons ?? []);
+      actionButtonsToHide!.sort();
+      for (var index in actionButtonsToHide) {
         actionButtons.removeAt(index - count);
         count++;
       }
@@ -292,7 +295,7 @@ class Common {
             title: Labels().label(
                 data: section!.title ?? "Section Title",
                 textColor: AppColors.dark),
-            subtitle: Text(section!.description ?? "Section Description"),
+            subtitle: Text(section.description ?? "Section Description"),
           ),
           emptySpace(height: 30)
         ],

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.islrtc">
+    <uses-permission android:name="android.permission.INTERNET" />
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -11,7 +12,6 @@
         android:label="islrtc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <uses-permission android:name="android.permission.INTERNET" />
         <!-- Provide required visibility configuration for API level 30 and above -->
         <activity
             android:name=".MainActivity"

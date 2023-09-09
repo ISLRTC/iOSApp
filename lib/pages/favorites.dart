@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:islrtc/components/AppScaffold.dart';
 import 'package:islrtc/components/Common.dart';
 import 'package:islrtc/components/Labels.dart';
@@ -17,13 +15,13 @@ class Favorites extends StatelessWidget {
     return AppScaffold(
         showAppBar: true,
         pageTitle: "My Favorites",
-        hideAppBarActionButtons: [1],
+        hideAppBarActionButtons: const [1],
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
                 child: FutureBuilder(
-                    initialData: [],
+                    initialData: const [],
                     future: LocalStorage().allFavoriteWords(),
                     builder: (context, snapshot) => snapshot.hasData &&
                             snapshot.connectionState == ConnectionState.done
