@@ -7,8 +7,7 @@ import 'package:islrtc/infra/localstorage.dart';
 import '../infra/singleton.dart';
 
 class Favorites extends StatelessWidget {
-  Favorites({super.key});
-  final myFavoriteWords = LocalStorage().allFavoriteWords();
+  const Favorites({super.key});
 
   @override
   Widget build(BuildContext context) {

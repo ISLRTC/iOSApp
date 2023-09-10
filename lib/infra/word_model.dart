@@ -29,7 +29,7 @@ class ISLRTCWord {
   factory ISLRTCWord.fromJson(Map<String, dynamic> json) => ISLRTCWord(
       id: json["Id"],
       categoryEnglish: json["category_english"].toString().toSentenceCase(),
-      categoryHindi: json["category_hindi"].toString().toSentenceCase(),
+      categoryHindi: json["category_hindi"],
       wordEnglish: json["word_english"].toString().toSentenceCase(),
       wordHindi: json["word_hindi"],
       videoUrlEnglish: json["video_url_english"],

@@ -184,13 +184,16 @@ class Common {
 
   Widget backButton({BuildContext? context}) {
     return InkWell(
-      onTap: () => {Navigator.pop(context!)},
+      onTap: () => {}, //Navigator.pop(context!)},
       child: IconButton(
         icon: const Icon(Icons.chevron_left_rounded, size: 40),
         color: AppColors.primary.color,
         tooltip: 'Go back',
         onPressed: () {
-          Navigator.pop(context!);
+          if (ModalRoute.of(context!)!.settings.name == "/words") {
+            Singleton().setCategory(" ");
+          }
+          Navigator.pop(context);
         },
       ),
     );
@@ -227,7 +230,8 @@ class Common {
         context: context,
         icon: Icons.star_border_rounded,
         tooltip: "My Favorites",
-        onClick: () => Navigator.pushNamed(context!, "/favorites"),
+        onClick: () => Navigator.pushNamedAndRemoveUntil(
+            context!, "/favorites", ModalRoute.withName('/categories')),
       )
     ];
 

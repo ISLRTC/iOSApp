@@ -72,52 +72,44 @@ class ISLRTCWordUtils {
   }
 
   static List<Word> getWordsForCategory(
-      String language, String category, List<ISLRTCWord> words) {
-    return List<Word>.from(words
-            .where((element) =>
-                (language == Languages.english.name
-                    ? element.categoryEnglish
-                    : element.categoryHindi) ==
-                category)
-            .map((e) => Word(
-                e.id,
-                language == Languages.english.name
-                    ? e.wordEnglish
-                    : e.wordHindi,
-                e.videoUrlEnglish))
-            .toSet()
-            .toList() ??
-        []);
-  }
+          String language, String category, List<ISLRTCWord> words) =>
+      List<Word>.from(words
+          .where((element) =>
+              (language == Languages.english.name
+                  ? element.categoryEnglish
+                  : element.categoryHindi) ==
+              category)
+          .map((e) => Word(
+              e.id,
+              language == Languages.english.name ? e.wordEnglish : e.wordHindi,
+              e.videoUrlEnglish))
+          .toSet()
+          .toList());
 
   static List<Word> getWordFromISLRTCWords(
-      String language, List<ISLRTCWord> words) {
-    return List<Word>.from(words
-            .map((e) => Word(
-                e.id,
-                language == Languages.english.name
-                    ? e.wordEnglish
-                    : e.wordHindi,
-                e.videoUrlEnglish))
-            .toSet()
-            .toList() ??
-        []);
-  }
+          String language, List<ISLRTCWord> words) =>
+      List<Word>.from(words
+          .map((e) => Word(
+              e.id,
+              language == Languages.english.name ? e.wordEnglish : e.wordHindi,
+              e.videoUrlEnglish))
+          .toSet()
+          .toList());
 
   static Future<List<Word>> searchWord(String searchText, String language,
       String category, List<ISLRTCWord> words) async {
-    List<Word> allWords = category.isEmpty
+    List<Word> allWords = category.trim().isEmpty
         ? getWordFromISLRTCWords(language, words)
         : getWordsForCategory(language, category, words);
 
-    List<Word> foundWords = (allWords.where((element) => element.title!
-                .toLowerCase()
-                .contains(searchText.toLowerCase())) ??
-            [])
-        .toList();
+    if (searchText.isNotEmpty) {
+      List<Word> foundWords = (allWords.where((element) {
+        return (element.title ?? '').contains(searchText);
+      })).toList();
 
-    print('$searchText ' + foundWords.length.toString());
+      return foundWords;
+    }
 
-    return foundWords;
+    return allWords;
   }
 }
