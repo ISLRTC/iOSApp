@@ -33,7 +33,7 @@ class ISLRTCApp extends StatelessWidget {
         "/wordDetail": (context) => const WordDetail(),
         "/about": (context) => const About(),
         "/search": (context) => const Search(),
-        "/favorites": (context) => Favorites(),
+        "/favorites": (context) => const Favorites(),
       },
     );
   }

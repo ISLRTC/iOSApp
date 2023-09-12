@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:islrtc/infra/constants.dart';
-import 'package:islrtc/infra/word_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:islrtc/infra/constants.dart';
+import 'package:islrtc/infra/word_model.dart';
 
 class Word {
   int? id;
@@ -62,39 +63,55 @@ class AppUtils {
 class ISLRTCWordUtils {
   static List<String> getCategoriesForLanguage(
       String language, List<ISLRTCWord> words) {
-    return List<String>.from(words
-            .map((e) => language == Languages.english.name
-                ? e.categoryEnglish
-                : e.categoryHindi)
-            .toSet()
-            .toList() ??
-        []);
+    List<String> categories = List<String>.from(words
+        .map((e) => language == Languages.english.name
+            ? e.categoryEnglish
+            : e.categoryHindi)
+        .toSet()
+        .toList());
+    categories.sort(
+      (a, b) => a.compareTo(b),
+    );
+    return categories;
   }
 
   static List<Word> getWordsForCategory(
-          String language, String category, List<ISLRTCWord> words) =>
-      List<Word>.from(words
-          .where((element) =>
-              (language == Languages.english.name
-                  ? element.categoryEnglish
-                  : element.categoryHindi) ==
-              category)
-          .map((e) => Word(
-              e.id,
-              language == Languages.english.name ? e.wordEnglish : e.wordHindi,
-              e.videoUrlEnglish))
-          .toSet()
-          .toList());
+      String language, String category, List<ISLRTCWord> words) {
+    List<Word> foundWords = List<Word>.from(words
+        .where((element) =>
+            (language == Languages.english.name
+                ? element.categoryEnglish
+                : element.categoryHindi) ==
+            category)
+        .map((e) => Word(
+            e.id,
+            language == Languages.english.name ? e.wordEnglish : e.wordHindi,
+            e.videoUrlEnglish))
+        .toSet()
+        .toList());
+
+    foundWords.sort(
+      (a, b) => (a.title ?? '').compareTo(b.title ?? ''),
+    );
+
+    return foundWords;
+  }
 
   static List<Word> getWordFromISLRTCWords(
-          String language, List<ISLRTCWord> words) =>
-      List<Word>.from(words
-          .map((e) => Word(
-              e.id,
-              language == Languages.english.name ? e.wordEnglish : e.wordHindi,
-              e.videoUrlEnglish))
-          .toSet()
-          .toList());
+      String language, List<ISLRTCWord> words) {
+    List<Word> foundWords = List<Word>.from(words
+        .map((e) => Word(
+            e.id,
+            language == Languages.english.name ? e.wordEnglish : e.wordHindi,
+            e.videoUrlEnglish))
+        .toSet()
+        .toList());
+
+    foundWords.sort(
+      (a, b) => (a.title ?? '').compareTo(b.title ?? ''),
+    );
+    return foundWords;
+  }
 
   static Future<List<Word>> searchWord(String searchText, String language,
       String category, List<ISLRTCWord> words) async {
@@ -103,13 +120,30 @@ class ISLRTCWordUtils {
         : getWordsForCategory(language, category, words);
 
     if (searchText.isNotEmpty) {
+      if (language == Languages.english.name) {
+        List<Word> foundWords = (allWords.where((element) {
+          return (element.title!.toLowerCase())
+              .contains(searchText.toLowerCase());
+        })).toList();
+
+        foundWords.sort(
+          (a, b) => (a.title ?? '').compareTo(b.title ?? ''),
+        );
+        return foundWords;
+      }
+
       List<Word> foundWords = (allWords.where((element) {
         return (element.title ?? '').contains(searchText);
       })).toList();
 
+      foundWords.sort(
+        (a, b) => (a.title ?? '').compareTo(b.title ?? ''),
+      );
       return foundWords;
     }
 
-    return allWords;
+    return allWords
+        .where((element) => (element.title ?? '').isNotEmpty)
+        .toList();
   }
 }
